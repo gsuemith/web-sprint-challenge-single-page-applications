@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router,
   Route, Switch } from 'react-router-dom'
 import axios from 'axios'
+
 import Header from './components/Header'
 import Home from './routes/Home'
 import Pizza from './routes/Pizza'
 import Order from './components/Order'
+
+import schema from './validation/formSchema'
+import * as Yup from 'yup'
 import './App.css'
 
 const initialFormValues = {
@@ -32,6 +36,7 @@ const toppingsList = ['pepperoni', 'sausage', 'mushroom',
 const App = () => {
   const [formValues, setFormValues] = useState(initialFormValues)
   const [order, setOrder] = useState([])
+  const [submitDisabled, setSubmitDisabled] = useState(true)
 
   //post order
   const postOrder = (orderItem) => {
@@ -46,6 +51,11 @@ const App = () => {
 
   //update values
   const updateValues = (name, value) => {
+    // Yup.reach(schema, name)
+    // .validate(value)
+    // .then(valid => {
+
+    // })
     setFormValues({...formValues, [name]:value})
   }
 
@@ -64,6 +74,14 @@ const App = () => {
     postOrder(newOrderItem)
   }
 
+  //Submit Disabled Effect
+  useEffect(() => {
+    schema.isValid(formValues)
+      .then(valid => {
+        setSubmitDisabled(!valid)
+      })
+  },[formValues])
+
   
   return (
     <Router>
@@ -75,6 +93,7 @@ const App = () => {
           <Pizza values={formValues} 
             update={updateValues}
             submit={formSubmit}
+            disabled={submitDisabled}
           />
         </Route>
 

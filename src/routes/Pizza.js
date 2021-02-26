@@ -1,7 +1,7 @@
 import React from 'react'
 import '../App.css'
 
-const Pizza = ({ values, update, submit }) => {
+const Pizza = ({ values, update, submit, disabled }) => {
 
 	const onChange = evt => {
 		const { name, value, type, checked } = evt.target
@@ -135,7 +135,7 @@ const Pizza = ({ values, update, submit }) => {
 						/>
 						</label>
 						
-						<button>Add to Order</button>
+						<button disabled={disabled}>Add to Order</button>
 					</div>
 				</form>
 				
