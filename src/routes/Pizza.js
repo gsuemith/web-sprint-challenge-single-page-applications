@@ -135,7 +135,7 @@ const Pizza = ({ values, update, submit, disabled, price }) => {
 						/>
 						</label>
 						
-						<button disabled={disabled}>Add to Order ${price}</button>
+						<button id="submitOrder" disabled={disabled}>Add to Order ${price}</button>
 					</div>
 				</form>
 				
