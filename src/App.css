@@ -53,6 +53,15 @@ nav a {
   background-size: cover;
 }
 
+.banner button {
+  width: 6em;
+  height: 3em;
+  border: none;
+  font-size: 2em;
+  cursor: pointer;
+  background-color: red
+}
+
 .order-card .options {
   padding: 1em;
 }

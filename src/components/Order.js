@@ -9,7 +9,9 @@ const Order = ({ order }) => {
 				{/* <div className="banner"></div> */}
                 {
                     order.map(item => (
-                        <h5 key={item.id}>{item.name + " " + item.id}</h5>
+                        <h5 key={item.id}>
+                            {`$${item.price} ${item.size} pizza x${item.quantity} for ${item.name} `}
+                        </h5>
                     ))
                 }
 

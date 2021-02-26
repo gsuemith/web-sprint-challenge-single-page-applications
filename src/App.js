@@ -33,10 +33,19 @@ const initialFormValues = {
 const toppingsList = ['pepperoni', 'sausage', 'mushroom',
   'olive', 'greenPepper', 'bacon', 'chicken', 'anchovy']
 
+  //for price calculation
+const sizePrices = {
+  S: {price: 10, toppingPrice: 1}, 
+  M: {price: 11, toppingPrice: 1}, 
+  L: {price: 12, toppingPrice: 2}, 
+  XL: {price: 14, toppingPrice: 2}
+}
+
 const App = () => {
   const [formValues, setFormValues] = useState(initialFormValues)
   const [order, setOrder] = useState([])
   const [submitDisabled, setSubmitDisabled] = useState(true)
+  const [price, setPrice] = useState(0.0)
 
   //post order
   const postOrder = (orderItem) => {
@@ -68,6 +77,7 @@ const App = () => {
         .filter(topping => formValues[topping]),
       instructions: formValues.instructions,
       quantity: formValues.quantity,
+      price: price,
     }
 
     console.log(newOrderItem)
@@ -82,11 +92,29 @@ const App = () => {
       })
   },[formValues])
 
+  //Calculate Price
+  useEffect( () => {
+    
+    if( formValues.size === '')
+      return;
+
+    const base = sizePrices[formValues.size].price
+    const topp = sizePrices[formValues.size].toppingPrice
+    const numToppings = toppingsList
+      .filter(topping => formValues[topping])
+      .length
+
+    setPrice((base + topp * numToppings) * formValues.quantity)
+  }, [formValues])
+
   
   return (
     <Router>
       <Header/>
       <Switch>
+        <Route path='/help'>
+          <h2>Need help? Order Anchovies!</h2>
+        </Route>
 
         <Route path='/pizza'>
           {order.length > 0 && <Order order={order} />}
@@ -94,6 +122,7 @@ const App = () => {
             update={updateValues}
             submit={formSubmit}
             disabled={submitDisabled}
+            price={price}
           />
         </Route>
 
