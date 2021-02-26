@@ -30,6 +30,11 @@ const initialFormValues = {
   instructions: '',
 }
 
+const initialErrors = {
+  name: "",
+  size: ""
+}
+
 const toppingsList = ['pepperoni', 'sausage', 'mushroom',
   'olive', 'greenPepper', 'bacon', 'chicken', 'anchovy']
 
@@ -43,6 +48,7 @@ const sizePrices = {
 
 const App = () => {
   const [formValues, setFormValues] = useState(initialFormValues)
+  const [formErrors, setFormErrors] = useState(initialErrors);
   const [order, setOrder] = useState([])
   const [submitDisabled, setSubmitDisabled] = useState(true)
   const [price, setPrice] = useState(0.0)
@@ -52,6 +58,7 @@ const App = () => {
     axios.post('https://reqres.in/api/users', orderItem)
       .then(res => {
         setOrder([...order, res.data])
+        setFormValues(initialFormValues)
       })
       .catch(err => {
         console.log("Error posting order", err)
@@ -60,11 +67,20 @@ const App = () => {
 
   //update values
   const updateValues = (name, value) => {
-    // Yup.reach(schema, name)
-    // .validate(value)
-    // .then(valid => {
+    Yup.reach(schema, name)
+      .validate(value)
+      .then(valid => {
+        setFormErrors({
+          ...formErrors, [name]: ''
+        })
+      })
+      .catch(err => {
+        setFormErrors({
+          ...formErrors, [name]: err.errors[0]
+        })
+      })
+  
 
-    // })
     setFormValues({...formValues, [name]:value})
   }
 
@@ -123,6 +139,7 @@ const App = () => {
             submit={formSubmit}
             disabled={submitDisabled}
             price={price}
+            errors={formErrors}
           />
         </Route>
 

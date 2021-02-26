@@ -4,11 +4,11 @@ const formSchema = Yup.object().shape({
     //required inputs
     name: Yup
         .string()
-        .required("A name is required"),
+        .required("Please enter a name for this order"),
     size: Yup
         .string()
-        .required("Please select a size")
-        .oneOf(['S', 'M', 'L', 'XL']),
+        .required()
+        .oneOf(['S', 'M', 'L', 'XL'], "Please select a size"),
     
     //Toppings checklist
     pepperoni: Yup.boolean(),

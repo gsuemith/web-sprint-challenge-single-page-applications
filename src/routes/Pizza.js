@@ -1,7 +1,7 @@
 import React from 'react'
 import '../App.css'
 
-const Pizza = ({ values, update, submit, disabled, price }) => {
+const Pizza = ({ values, update, submit, disabled, price, errors }) => {
 
 	const onChange = evt => {
 		const { name, value, type, checked } = evt.target
@@ -23,6 +23,7 @@ const Pizza = ({ values, update, submit, disabled, price }) => {
 				<form className="options" onSubmit={onSubmit}>
 					<label>
 						<h5>Name</h5>
+						{errors.name && <p style={{color:'red'}}>{errors.name}</p>}
 						<input type="text"
 							onChange={onChange}
 							name="name"
@@ -30,6 +31,7 @@ const Pizza = ({ values, update, submit, disabled, price }) => {
 					</label>
 
 					<h5>Choice of Size</h5>
+					{errors.size && <p style={{color:'red'}}>{errors.size}</p>}
 					<select name="size" value={values.size} onChange={onChange}>
 						<option value="">---Select a Size---</option>
 						<option value="S">Small 10 in.</option>
