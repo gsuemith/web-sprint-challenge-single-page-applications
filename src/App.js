@@ -5,6 +5,7 @@ import axios from 'axios'
 import Header from './components/Header'
 import Home from './routes/Home'
 import Pizza from './routes/Pizza'
+import Order from './components/Order'
 import './App.css'
 
 const initialFormValues = {
@@ -34,7 +35,13 @@ const App = () => {
 
   //post order
   const postOrder = (orderItem) => {
-    axios.post('https://reqres.in/api/users')
+    axios.post('https://reqres.in/api/users', orderItem)
+      .then(res => {
+        setOrder([...order, res.data])
+      })
+      .catch(err => {
+        console.log("Error posting order", err)
+      })
   }
 
   //update values
@@ -54,6 +61,7 @@ const App = () => {
     }
 
     console.log(newOrderItem)
+    postOrder(newOrderItem)
   }
 
   
@@ -63,6 +71,7 @@ const App = () => {
       <Switch>
 
         <Route path='/pizza'>
+          {order.length > 0 && <Order order={order} />}
           <Pizza values={formValues} 
             update={updateValues}
             submit={formSubmit}
