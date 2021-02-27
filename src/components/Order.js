@@ -9,12 +9,16 @@ const Order = ({ order }) => {
 				{/* <div className="banner"></div> */}
                 {
                     order.map(item => (
-                        <h5 key={item.id}>
+                        <div key={item.id}>
+                        <h5>
                             {`$${item.price} ${item.size} pizza x${item.quantity} for ${item.name} `}
                         </h5>
+                        <button>Delete Item</button>
+                        <hr/>
+                        </div>
                     ))
                 }
-
+                <br/><br/>
                 <button>Checkout</button>
             </div>
         </div>

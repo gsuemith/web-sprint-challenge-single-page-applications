@@ -84,7 +84,7 @@ const App = () => {
     setFormValues({...formValues, [name]:value})
   }
 
-  //submit form
+  //submit order
   const formSubmit = () => {
     const newOrderItem = {
       name: formValues.name,
@@ -96,7 +96,6 @@ const App = () => {
       price: price,
     }
 
-    console.log(newOrderItem)
     postOrder(newOrderItem)
   }
 
